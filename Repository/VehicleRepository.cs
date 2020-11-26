@@ -7,7 +7,7 @@ namespace vehicleTrackingApi.Repository
     public class VehicleRepository : IVehicleRepository
     {
         private readonly IMongoCollection<Vehicles> _vehicles;
-        public VehicleRepository(IVehicleDatabaseSettings settings)
+        public VehicleRepository(IConfigMap settings)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);

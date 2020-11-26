@@ -10,5 +10,7 @@ namespace vehicleTrackingApi.Services
     {
         public Vehicles Get(string id);
         public Vehicles Tracking(Vehicles vehicles);
+        public List<VehiclesHistory> GetVehicleHistoryBetweenPeriod(DateTime VehicleIdentificationIn, DateTime VehicleIdentificationUntil);
+        public List<VehiclesHistory> GetHistory(string VehicleIdentification);
     }
 }

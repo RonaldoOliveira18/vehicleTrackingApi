@@ -8,6 +8,7 @@ using vehicleTrackingApi.Models;
 using vehicleTrackingApi.Repository;
 using vehicleTrackingApi.Repository.Interfaces;
 using vehicleTrackingApi.Services;
+using vehicleTrackingApi.Services.Interfaces;
 
 namespace vehicleTrackingApi
 {
@@ -23,16 +24,19 @@ namespace vehicleTrackingApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<VehicleDatabaseSettings>(
-        Configuration.GetSection(nameof(VehicleDatabaseSettings)));
+            services.Configure<ConfigMap>(
+        Configuration.GetSection(nameof(ConfigMap)));
 
-            services.AddSingleton<IVehicleDatabaseSettings>(sp =>
-                sp.GetRequiredService<IOptions<VehicleDatabaseSettings>>().Value);
+            services.AddSingleton<IConfigMap>(sp =>
+                sp.GetRequiredService<IOptions<ConfigMap>>().Value);
 
             services.AddSingleton<IVehicleService, VehicleService>();
+        
             services.AddSingleton<IVehicleRepository, VehicleRepository>();
             services.AddSingleton<IVehicleHistoryRepository, VehicleHistoryRepository>();
-            
+            services.AddSingleton<IAddressRepository, AddressRepository>();
+            services.AddSingleton<IAddressService, AddressService>();
+
             services.AddControllers();
             services.AddSwaggerGen(options =>
             {

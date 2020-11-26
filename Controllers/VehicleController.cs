@@ -28,6 +28,26 @@ namespace vehicleTrackingApi.Controllers
                 return new ObjectResult(vehile);
         }
 
+        [HttpGet("GetHistory/{VehicleIdentification}", Name = nameof(GetVehicleHistory))]
+        public IActionResult GetVehicleHistory(string VehicleIdentification)
+        {
+            var vehile = _vehiclesService.GetHistory(VehicleIdentification);
+            if (vehile == null)
+                return NotFound();
+            else
+                return new ObjectResult(vehile);
+        }
+
+        [HttpGet("getPeriod", Name = nameof(GetVehicleHistoryBetweenPeriod))]
+        public IActionResult GetVehicleHistoryBetweenPeriod(DateTime VehicleIdentificationDe, DateTime VehicleIdentificationUntil)
+        {
+            var vehile = _vehiclesService.GetVehicleHistoryBetweenPeriod(VehicleIdentificationDe, VehicleIdentificationUntil);
+            if (vehile == null)
+                return NotFound();
+            else
+                return new ObjectResult(vehile);
+        }
+
         [HttpPost("Tracking", Name = nameof(Tracking))]
         public IActionResult Tracking(Vehicles vehicle)
         {

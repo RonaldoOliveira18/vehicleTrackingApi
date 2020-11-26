@@ -1,15 +1,8 @@
-﻿using MongoDB.Bson.Serialization;
-using MongoDB.Bson.Serialization.Serializers;
-using MongoDB.Driver;
-using Newtonsoft.Json;
+﻿using ServiceStack;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using vehicleTrackingApi.Models;
-using vehicleTrackingApi.Repository;
 using vehicleTrackingApi.Repository.Interfaces;
-
 namespace vehicleTrackingApi.Services
 {
     public class VehicleService : IVehicleService
@@ -25,6 +18,11 @@ namespace vehicleTrackingApi.Services
         public Vehicles Get(string VehicleIdentification) =>
            _vehiclesRepository.Get(VehicleIdentification);
 
+        public List<VehiclesHistory> GetHistory(string VehicleIdentification) =>
+            _vehiclesHistoryRepository.Get(VehicleIdentification);
+        
+        public List<VehiclesHistory> GetVehicleHistoryBetweenPeriod(DateTime VehicleIdentificationIn, DateTime VehicleIdentificationUntil) =>
+               _vehiclesHistoryRepository.GetVehicleHistoryBetweenPeriod(VehicleIdentificationIn, VehicleIdentificationUntil);
         private void saveHistory(VehiclesHistory history)
         {
             history.DateLocalization = DateTime.Now;
@@ -58,6 +56,6 @@ namespace vehicleTrackingApi.Services
             }           
 
             return vehicle;
-        }
+        }        
     }
 }
