@@ -18,17 +18,20 @@ namespace vehicleTrackingApi.Models
 
         //public string identification { get; set; }
 
-        public Vehicles()
-        {
-            vehicles = new List<Vehicle>().Cast<object>().ToArray();
-        }
+        //public Vehicles()
+        //{
+        //    vehicles = new List<Vehicle>().Cast<object>().ToArray();
+        //}
 
 
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-        public object vehicles { get; set; }
-
-
+        public string VehicleIdentification { get; set; }
+        public string VehicleName { get; set; }
+        [BsonRepresentation(BsonType.Decimal128)]
+        public decimal LastLongitude { get; set; }
+        [BsonRepresentation(BsonType.Decimal128)]
+        public decimal LastLatitude { get; set; }
     }
 }

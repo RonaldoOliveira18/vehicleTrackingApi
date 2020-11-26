@@ -7,28 +7,57 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using vehicleTrackingApi.Models;
+using vehicleTrackingApi.Repository;
+using vehicleTrackingApi.Repository.Interfaces;
 
 namespace vehicleTrackingApi.Services
 {
     public class VehicleService : IVehicleService
     {
-        private readonly IMongoCollection<Vehicles> _vehicles;
+        private readonly IVehicleRepository _vehiclesRepository;
+        private readonly IVehicleHistoryRepository _vehiclesHistoryRepository;
 
-        public VehicleService(IVehicleDatabaseSettings settings)
+        public VehicleService(IVehicleRepository vehiclesRepository, IVehicleHistoryRepository vehiclesHistoryRepository)
         {
-            var client = new MongoClient(settings.ConnectionString);
-            var database = client.GetDatabase(settings.DatabaseName);
-
-            _vehicles = database.GetCollection<Vehicles>(settings.VehicleCollectionName);
+            _vehiclesRepository = vehiclesRepository;
+            _vehiclesHistoryRepository = vehiclesHistoryRepository;
         }
-        public Vehicles Get(string id)
+        public Vehicles Get(string VehicleIdentification) =>
+           _vehiclesRepository.Get(VehicleIdentification);
+
+        private void saveHistory(VehiclesHistory history)
         {
-            var serializer = new BsonArraySerializer();
+            history.DateLocalization = DateTime.Now;
+            _vehiclesHistoryRepository.insert(history);
+        }
 
-            var x=   _vehicles.Find<Vehicles>(car => car.Id == id).FirstOrDefault();
+        public Vehicles Tracking(Vehicles vehiclesParam)
+        {
+            VehiclesHistory history = new VehiclesHistory();
+            history.Latitude = vehiclesParam.LastLatitude;
+            history.Longitude = vehiclesParam.LastLongitude;
 
-            return x;
+            var vehicle = _vehiclesRepository.Get(vehiclesParam?.VehicleIdentification);
 
+            if (vehicle == null) {
+                _vehiclesRepository.insert(vehiclesParam);             
+                history.VehicleIdentification = vehiclesParam.VehicleIdentification;
+                history.VehicleName = vehiclesParam.VehicleName;
+                
+                saveHistory(history);
+            }
+            else
+            {
+                vehicle.LastLatitude = vehiclesParam.LastLatitude;
+                vehicle.LastLongitude = vehiclesParam.LastLongitude;
+                _vehiclesRepository.update(vehicle);
+
+                history.VehicleIdentification = vehicle.VehicleIdentification;
+                history.VehicleName = vehicle.VehicleName;
+                saveHistory(history);
+            }           
+
+            return vehicle;
         }
     }
 }

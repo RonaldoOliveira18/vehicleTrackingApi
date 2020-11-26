@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using vehicleTrackingApi.Models;
+using vehicleTrackingApi.Repository;
+using vehicleTrackingApi.Repository.Interfaces;
 using vehicleTrackingApi.Services;
 
 namespace vehicleTrackingApi
@@ -28,6 +30,8 @@ namespace vehicleTrackingApi
                 sp.GetRequiredService<IOptions<VehicleDatabaseSettings>>().Value);
 
             services.AddSingleton<IVehicleService, VehicleService>();
+            services.AddSingleton<IVehicleRepository, VehicleRepository>();
+            services.AddSingleton<IVehicleHistoryRepository, VehicleHistoryRepository>();
             
             services.AddControllers();
             services.AddSwaggerGen(options =>

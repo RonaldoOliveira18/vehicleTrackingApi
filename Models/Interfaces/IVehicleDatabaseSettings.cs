@@ -8,6 +8,7 @@ namespace vehicleTrackingApi.Models
     public interface IVehicleDatabaseSettings
     {
         string VehicleCollectionName { get; set; }
+        string VehicleHistoryCollectionName { get; set; }
         string ConnectionString { get; set; }
         string DatabaseName { get; set; }
     }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using vehicleTrackingApi.Models;
 using vehicleTrackingApi.Services;
 
 namespace vehicleTrackingApi.Controllers
@@ -17,18 +18,24 @@ namespace vehicleTrackingApi.Controllers
             _vehiclesService = vehicleService;
         }
 
-        // GET api/placeinfo/id
-        [HttpGet("{id}", Name = nameof(GetVehicle))]
-        public IActionResult GetVehicle(string id)
+        [HttpGet("{VehicleIdentification}", Name = nameof(GetVehicle))]
+        public IActionResult GetVehicle(string VehicleIdentification)
         {
-            //PlaceInfo placeInfo = _placeInfoService.Find(id);
-            //if (placeInfo == null)
-            //    return NotFound();
-            //else
-            //    return new ObjectResult(placeInfo);
-            var vechile = new ObjectResult(_vehiclesService.Get(id));
-            return vechile;
-            //return NotFound();
+            var vehile = _vehiclesService.Get(VehicleIdentification);
+            if (vehile == null)
+                return NotFound();
+            else
+                return new ObjectResult(vehile);
+        }
+
+        [HttpPost("Tracking", Name = nameof(Tracking))]
+        public IActionResult Tracking(Vehicles vehicle)
+        {
+            var vehile = _vehiclesService.Tracking(vehicle);
+            if (vehile == null)
+                return StatusCode(200);
+            else
+                return StatusCode(200);
         }
     }
 }
