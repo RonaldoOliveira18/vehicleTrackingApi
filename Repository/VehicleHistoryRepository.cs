@@ -18,7 +18,7 @@ namespace vehicleTrackingApi.Repository
         }
 
         public void insert(VehiclesHistory history) => _vehiclesHistory.InsertOneAsync(history);
-        public List<VehiclesHistory> -(DateTime VehicleIdentificationIn, DateTime VehicleIdentificationUntil) =>
+        public List<VehiclesHistory> GetVehicleHistoryBetweenPeriod(DateTime VehicleIdentificationIn, DateTime VehicleIdentificationUntil) =>
    _vehiclesHistory.Find<VehiclesHistory>(car => car.DateLocalization >= VehicleIdentificationIn && car.DateLocalization<= VehicleIdentificationUntil).ToList();
 
         public List<VehiclesHistory> Get(string VehicleIdentification) =>
