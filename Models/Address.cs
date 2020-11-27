@@ -8,5 +8,6 @@ namespace vehicleTrackingApi.Models
     public class Address
     {
         public string display_name { get; set; }
+        public AddressDetail address { get; set; }
     }
 }

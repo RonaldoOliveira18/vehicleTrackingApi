@@ -20,8 +20,6 @@ namespace vehicleTrackingApi
         }
 
         public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<ConfigMap>(
@@ -36,6 +34,7 @@ namespace vehicleTrackingApi
             services.AddSingleton<IVehicleHistoryRepository, VehicleHistoryRepository>();
             services.AddSingleton<IAddressRepository, AddressRepository>();
             services.AddSingleton<IAddressService, AddressService>();
+            services.AddSingleton<IAddressCordinatesRepository, AddressCordinatesRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(options =>

@@ -9,6 +9,7 @@ namespace vehicleTrackingApi.Models
     {
         string VehicleCollectionName { get; set; }
         string VehicleHistoryCollectionName { get; set; }
+        string AddressCordinatesCollectionName { get; set; }
         string ConnectionString { get; set; }
         string DatabaseName { get; set; }
         public string AddressAPI { get; set; }

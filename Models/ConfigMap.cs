@@ -13,5 +13,6 @@ namespace vehicleTrackingApi.Models
         public string DatabaseName { get; set; }
         public string AddressAPI { get; set; }
         public string AddressAPIKey { get; set; }
+        public string AddressCordinatesCollectionName { get; set; }
     }
 }
